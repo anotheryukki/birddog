@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="$BIRDDOG — the chillest bird on the chain. A pure-vibes meme coin paired to $PEPE via stonkfun. Coming soon.">
+<meta property="og:title" content="$BIRDDOG">
+<meta property="og:description" content="Beanie on, shades down, feathers up. Paired to $PEPE via stonkfun. Coming soon.">
+<meta property="og:image" content="assets/birddog.webp">
+<link rel="icon" type="image/webp" href="assets/birddog.webp">
+<title>$BIRDDOG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Rubik:wght@400;500;600;800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root {
+    --void: #12052a;
+    --void-2: #1d0a3f;
+    --grape: #6a00ff;
+    --grape-soft: #9b5cff;
+    --magenta: #ff2fd0;
+    --lime: #b6ff2e;
+    --tangerine: #ff8a00;
+    --feather: #ffd23f;
+    --cyan: #22e6ff;
+    --cream: #fff3d6;
+    --ink: #0c0418;
+    --text: #fff3d6;
+    --muted: rgba(255, 243, 214, .68);
+    --font-display: "Shrikhand", "Cooper Black", "Georgia", serif;
+    --font-body: "Rubik", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "Space Mono", "SFMono-Regular", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--void); color: var(--text);
+    font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--lime); color: var(--ink); }
+
+  /* ================= TRIP LAYERS ================= */
+  .sunburst {
+    position: fixed; left: 50%; top: 50%; width: 260vmax; height: 260vmax; z-index: 0; pointer-events: none;
+    transform: translate(-50%, -50%);
+    background: repeating-conic-gradient(from 0deg, rgba(106, 0, 255, .35) 0 7deg, rgba(255, 47, 208, .22) 7deg 14deg, rgba(255, 138, 0, .18) 14deg 21deg, rgba(182, 255, 46, .14) 21deg 28deg, rgba(34, 230, 255, .18) 28deg 35deg);
+    opacity: .28; animation: spin 140s linear infinite;
+    -webkit-mask: radial-gradient(circle at center, #000 0, rgba(0, 0, 0, .55) 35%, transparent 72%);
+            mask: radial-gradient(circle at center, #000 0, rgba(0, 0, 0, .55) 35%, transparent 72%);
+  }
+  .lava { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; filter: blur(60px) saturate(1.4); opacity: .55; }
+  .blob { position: absolute; width: 42vmax; height: 42vmax; border-radius: 50%; animation: morph 22s ease-in-out infinite alternate, drift 38s ease-in-out infinite alternate; }
+  .blob.a { background: var(--grape); left: -10vmax; top: -8vmax; }
+  .blob.b { background: var(--magenta); right: -12vmax; top: 18vh; animation-delay: -6s, -12s; }
+  .blob.c { background: var(--tangerine); left: 20vw; bottom: -18vmax; animation-delay: -12s, -20s; width: 34vmax; height: 34vmax; }
+  .blob.d { background: var(--cyan); right: 18vw; bottom: -10vmax; animation-delay: -18s, -30s; width: 28vmax; height: 28vmax; opacity: .8; }
+  @keyframes morph { 0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; } 50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; } 100% { border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%; } }
+  @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(8vw, -6vh) scale(1.15); } }
+  @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  .grain { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .09; mix-blend-mode: overlay; }
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .page { position: relative; z-index: 1; }
+
+  /* ================= NAV ================= */
+  .nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+    display: flex; justify-content: center; padding: 12px 16px 0;
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 6px; padding: 8px 10px 8px 14px;
+    background: rgba(12, 4, 24, .72); backdrop-filter: blur(14px);
+    border: 2px solid var(--magenta); border-radius: 999px;
+    box-shadow: 0 0 0 4px rgba(255, 47, 208, .18), 0 20px 40px -20px var(--magenta);
+    max-width: 100%;
+  }
+  .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--font-display); font-size: 20px; color: var(--feather); margin-right: 8px; text-shadow: 2px 2px 0 var(--magenta); }
+  .brand img { width: 30px; height: auto; }
+  .nav-links { display: flex; gap: 2px; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 999px; transition: .15s; }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); background: var(--lime); outline: none; }
+  .nav-links a.x-pill { color: var(--ink); background: var(--feather); }
+  .nav-links a.x-pill:hover { background: var(--magenta); color: var(--cream); }
+
+  /* ================= SHARED ================= */
+  .wrap { width: min(1160px, 100%); margin: 0 auto; padding-inline: 20px; }
+  section { position: relative; padding-block: clamp(64px, 9vw, 120px); }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink); background: var(--lime); padding: 6px 12px; border-radius: 6px;
+    transform: rotate(-2deg); box-shadow: 4px 4px 0 var(--magenta);
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; line-height: 1; text-wrap: balance; letter-spacing: .01em; }
+  h2 { font-size: clamp(42px, 6.4vw, 78px); margin-top: 20px; color: var(--feather); text-shadow: 4px 4px 0 var(--magenta), 8px 8px 0 var(--grape); }
+  h2 .alt { color: var(--lime); }
+  h3 { font-size: 28px; color: var(--feather); }
+  .lede { font-size: clamp(17px, 1.9vw, 21px); color: var(--muted); max-width: 60ch; margin: 18px 0 0; }
+  .lede strong { color: var(--text); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: var(--font-display); font-size: 20px; letter-spacing: .02em;
+    color: var(--ink); background: var(--feather);
+    border: 3px solid var(--ink); border-radius: 999px; padding: 12px 26px;
+    text-decoration: none; cursor: pointer;
+    box-shadow: 6px 6px 0 var(--magenta);
+    transition: transform .15s cubic-bezier(.2, 1.4, .4, 1), box-shadow .15s, background .15s;
+  }
+  .btn:hover, .btn:focus-visible { transform: translate(-3px, -3px) rotate(-1.5deg); box-shadow: 10px 10px 0 var(--magenta); outline: none; background: var(--lime); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--magenta); }
+  .btn.alt { background: var(--magenta); color: var(--cream); box-shadow: 6px 6px 0 var(--lime); }
+  .btn.alt:hover { background: var(--grape); color: var(--cream); }
+  .btn[disabled] { cursor: not-allowed; opacity: .55; }
+  .btn[disabled]:hover { transform: none; box-shadow: 6px 6px 0 var(--magenta); background: var(--feather); }
+  .btn svg { width: 20px; height: 20px; }
+
+  .melt {
+    position: relative; background: var(--cream); color: var(--ink);
+    border: 3px solid var(--ink); border-radius: 26px;
+    box-shadow: 10px 10px 0 var(--grape), 10px 10px 0 3px var(--ink);
+    transition: transform .25s cubic-bezier(.2, 1.4, .4, 1);
+  }
+  .melt:hover { transform: rotate(-.6deg) translate(-2px, -2px); }
+  .melt.dark { background: var(--ink); color: var(--text); box-shadow: 10px 10px 0 var(--magenta), 10px 10px 0 3px var(--ink); }
+  .melt::after { content: ""; position: absolute; left: 12%; right: 12%; top: -14px; height: 14px; background: inherit; border: 3px solid var(--ink); border-bottom: 0; border-radius: 14px 14px 0 0; opacity: 0; }
+
+
+  /* ================= HERO ================= */
+  .hero { padding-block: clamp(28px, 5vw, 64px) clamp(56px, 8vw, 100px); overflow: hidden; }
+  .hero-top { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: center; }
+  .hero-copy { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .wordmark { width: 100%; max-width: 720px; height: auto; overflow: visible; }
+  .wordmark text { font-family: var(--font-display); font-size: 124px; fill: var(--feather); stroke: var(--ink); stroke-width: 6; paint-order: stroke fill; }
+  .wordmark .shadow text { fill: var(--magenta); stroke: var(--magenta); }
+  .wordmark .shadow2 text { fill: var(--grape); stroke: var(--grape); }
+  .soon {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-size: 24px; letter-spacing: .04em;
+    color: var(--ink); background: var(--lime); border: 3px solid var(--ink); border-radius: 12px; padding: 8px 18px;
+    box-shadow: 6px 6px 0 var(--magenta); transform: rotate(-3deg);
+    animation: ticket 2.6s ease-in-out infinite;
+  }
+  .soon .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--magenta); border: 2px solid var(--ink); animation: blink 1.2s steps(2) infinite; }
+  @keyframes ticket { 0%, 100% { rotate: -3deg; } 50% { rotate: 2deg; } }
+  @keyframes blink { to { opacity: .15; } }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .disc { position: relative; display: grid; place-items: center; aspect-ratio: 1; width: min(100%, 520px); margin-inline: auto; }
+  .disc .ring { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, var(--magenta) 0 15deg, var(--feather) 15deg 30deg, var(--grape) 30deg 45deg, var(--lime) 45deg 60deg, var(--tangerine) 60deg 75deg, var(--cyan) 75deg 90deg); animation: spin2 30s linear infinite; border: 4px solid var(--ink); box-shadow: 0 0 0 10px rgba(12, 4, 24, .5), 0 40px 80px -20px var(--magenta); }
+  .disc .ring.inner { inset: 14%; animation-direction: reverse; animation-duration: 18s; opacity: .95; -webkit-mask: radial-gradient(circle, transparent 42%, #000 43%); mask: radial-gradient(circle, transparent 42%, #000 43%); }
+  .disc .core { position: absolute; inset: 28%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #fff4c2, var(--feather) 55%, var(--tangerine)); border: 4px solid var(--ink); }
+  @keyframes spin2 { to { rotate: 360deg; } }
+  .disc .head { position: relative; width: 62%; height: auto; filter: drop-shadow(0 20px 0 rgba(12, 4, 24, .5)); animation: headfloat 4s ease-in-out infinite; cursor: pointer; transition: transform .35s cubic-bezier(.2, 1.6, .4, 1); }
+  .disc .head:hover { transform: rotate(-8deg) scale(1.06); }
+  @keyframes headfloat { 0%, 100% { translate: 0 0; rotate: -3deg; } 50% { translate: 0 -14px; rotate: 3deg; } }
+  .eye { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--lime); border: 3px solid var(--ink); animation: blink 1.8s steps(2) infinite; }
+
+
+  /* ================= TICKER ================= */
+  .ticker { position: relative; z-index: 2; background: var(--feather); color: var(--ink); border-block: 3px solid var(--ink); overflow: hidden; white-space: nowrap; font-family: var(--font-display); font-size: 24px; letter-spacing: .04em; transform: rotate(-1.5deg) scale(1.04); margin-block: 30px 10px; }
+  .ticker-track { display: inline-flex; gap: 44px; padding: 10px 0; animation: marquee 30s linear infinite; }
+  .ticker-track span { display: inline-flex; align-items: center; gap: 16px; }
+  .ticker-track i { font-style: normal; color: var(--magenta); font-size: 30px; line-height: 0; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* drip divider */
+  .drip { display: block; width: 100%; height: 70px; }
+
+  /* ================= ORIGIN ================= */
+  .origin-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 44px; align-items: center; margin-top: 12px; }
+  .comic { position: relative; margin: 0; transform: rotate(-3deg); }
+  .comic img { display: block; width: 100%; height: auto; border-radius: 18px; }
+  .comic .frame { background: #fff; padding: 12px; border: 3px solid var(--ink); border-radius: 22px; box-shadow: 12px 12px 0 var(--magenta), 12px 12px 0 3px var(--ink); }
+  .comic figcaption { position: absolute; right: -14px; bottom: -18px; transform: rotate(3deg); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: var(--lime); border: 3px solid var(--ink); border-radius: 8px; padding: 6px 10px; box-shadow: 4px 4px 0 var(--ink); }
+  .origin-copy { display: flex; flex-direction: column; gap: 22px; position: relative; }
+  .origin-copy p { margin: 0; color: var(--muted); }
+  .origin-copy p strong { color: var(--text); }
+  .quote { font-family: var(--font-display); font-size: clamp(30px, 4.4vw, 52px); line-height: 1; margin: 0; color: var(--lime); text-shadow: 3px 3px 0 var(--grape); }
+  .quote small { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); text-shadow: none; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .fact { padding: 14px 16px; border-radius: 16px; background: var(--ink); border: 3px solid var(--grape-soft); }
+  .fact:nth-child(2) { border-color: var(--magenta); transform: rotate(1deg); }
+  .fact:nth-child(3) { border-color: var(--lime); transform: rotate(-1deg); }
+  .fact b { display: block; font-family: var(--font-display); font-size: 18px; color: var(--feather); margin-bottom: 2px; }
+  .fact span { font-size: 13px; color: var(--muted); }
+  .cast { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cast span { font-family: var(--font-mono); font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--grape-soft); color: var(--muted); }
+  .cast span.me { color: var(--ink); background: var(--feather); border-color: var(--ink); font-weight: 700; }
+  .cast span.frog { color: var(--lime); border-color: var(--lime); }
+
+  /* ================= PAIRING ================= */
+  .pairing { overflow: hidden; }
+  .pair-stage { position: relative; margin-top: 24px; display: flex; flex-direction: column; align-items: center; padding-block: 30px; }
+  .pair-row { position: relative; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; margin-top: 30px; }
+  .coin { position: relative; z-index: 2; aspect-ratio: 1; width: min(100%, 300px); margin-inline: auto; border-radius: 50%; border: 4px solid var(--ink); display: grid; place-items: center; text-align: center; box-shadow: inset -14px -14px 0 rgba(12, 4, 24, .22), 10px 10px 0 var(--ink); animation: coin 4.2s ease-in-out infinite; }
+  .coin::before { content: ""; position: absolute; inset: -18px; border-radius: 50%; border: 3px dashed var(--lime); animation: spin2 24s linear infinite; }
+  .coin.bird { background: radial-gradient(circle at 35% 30%, #ffe27a, var(--feather) 55%, #e0a91c); }
+  .coin.bird img { width: 60%; height: auto; }
+  .coin.frog { background: radial-gradient(circle at 35% 30%, #c8ff8a, var(--lime) 55%, #4fa81d); animation-delay: -2.1s; }
+  .coin.frog::before { border-color: var(--magenta); animation-direction: reverse; }
+  .coin .tagline { font-family: var(--font-display); font-size: clamp(34px, 5vw, 54px); color: var(--ink); }
+  .coin .sub { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(12, 4, 24, .7); margin-top: 6px; }
+  @keyframes coin { 50% { translate: 0 -14px; } }
+  .via { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .via-logo { width: 130px; aspect-ratio: 1; display: grid; place-items: center; background: var(--cream); border: 4px solid var(--ink); border-radius: 30px; box-shadow: 8px 8px 0 var(--magenta), 8px 8px 0 4px var(--ink); animation: wiggle 3.2s ease-in-out infinite; }
+  .via-logo img { width: 72%; height: auto; }
+  @keyframes wiggle { 0%, 100% { rotate: -5deg; } 50% { rotate: 5deg; } }
+  .via .name { font-family: var(--font-display); font-size: 26px; color: var(--cyan); text-shadow: 3px 3px 0 var(--ink); }
+  .via small { font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .flow { position: absolute; left: 12%; right: 12%; top: 50%; height: 8px; border-radius: 8px; background: repeating-linear-gradient(90deg, var(--feather) 0 22px, var(--lime) 22px 44px, var(--magenta) 44px 66px); background-size: 66px 8px; border: 2px solid var(--ink); animation: flow 1.6s linear infinite; z-index: 1; }
+  @keyframes flow { to { background-position: 66px 0; } }
+
+  /* ================= CA ================= */
+  .ca-grid { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; margin-top: 30px; }
+  .ca-box { padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+  .ca-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .ca-label { font-family: var(--font-display); font-size: 22px; color: var(--magenta); }
+  .ca-addr { flex: 1 1 320px; min-width: 0; font-family: var(--font-mono); font-size: clamp(13px, 2.2vw, 18px); background: var(--void); border: 3px solid var(--grape-soft); border-radius: 14px; padding: 14px 16px; color: var(--lime); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; }
+  .ca-addr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .16), transparent); animation: shimmer 2.4s linear infinite; }
+  @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+  .ca-status { display: flex; align-items: flex-start; gap: 10px; color: var(--muted); font-size: 15px; }
+  .ca-status svg { width: 20px; height: 20px; flex: none; margin-top: 3px; color: var(--magenta); }
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 40; background: var(--lime); color: var(--ink); border: 3px solid var(--ink); border-radius: 12px; padding: 10px 18px; font-weight: 700; box-shadow: 5px 5px 0 var(--ink); transition: .25s; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ================= X ================= */
+  .x-stage { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+  .x-card { padding: 30px; display: flex; flex-direction: column; gap: 16px; position: relative; overflow: visible; }
+  .x-card .glyph { width: 56px; height: 56px; background: var(--cream); color: var(--ink); border: 3px solid var(--ink); border-radius: 16px; display: grid; place-items: center; box-shadow: 4px 4px 0 var(--magenta); }
+  .x-card .glyph svg { width: 28px; height: 28px; }
+  .x-card p { margin: 0; color: var(--muted); }
+  .x-card .handle { font-family: var(--font-display); font-size: 40px; color: var(--cyan); text-shadow: 3px 3px 0 var(--magenta); }
+  .x-feed { display: flex; flex-direction: column; gap: 14px; }
+  .post { padding: 16px 18px; font-weight: 500; }
+  .post:nth-child(2) { transform: rotate(1.2deg); }
+  .post:nth-child(3) { transform: rotate(-1deg); }
+  .post .who { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: 800; }
+  .post .who img { width: 32px; height: auto; }
+  .post .who span { color: #6a5a7a; font-weight: 500; font-size: 14px; }
+  .post .example { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: #8a7a9a; margin-top: 10px; display: block; }
+
+  /* ================= DISCLAIMER / FOOTER ================= */
+  .disclaimer { padding-block: clamp(48px, 7vw, 80px); }
+  .disc-box { padding: 28px; color: var(--muted); font-size: 14.5px; max-width: 84ch; }
+  .disc-box h3 { margin-bottom: 12px; }
+  .disc-box p { margin: 0 0 10px; }
+  .disc-box p:last-child { margin: 0; }
+  footer { border-top: 3px solid var(--ink); background: var(--ink); padding: 26px 20px calc(26px + env(safe-area-inset-bottom, 0px)); }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 13px; font-family: var(--font-mono); letter-spacing: .06em; }
+  .foot img { width: 36px; height: auto; }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 900px) {
+    .hero-top, .origin-grid, .x-stage { grid-template-columns: 1fr; }
+    .disc { width: min(80%, 360px); }
+    .pair-row { grid-template-columns: 1fr; gap: 110px; margin-top: 0; padding-block: 20px; }
+    .flow { display: none; }
+    .ca-grid { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    .nav-links a:not(.x-pill) { display: none; }
+    .comic { transform: rotate(-1.5deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+
+<style>
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="sunburst" aria-hidden="true"></div>
+<div class="lava" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div><div class="blob d"></div></div>
+<canvas class="stars" id="stars" aria-hidden="true"></canvas>
+<svg class="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<div class="page">
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top"><img src="assets/birddog.webp" alt="">$BIRDDOG</a>
+      <div class="nav-links">
+        <a href="#origin">Origin</a>
+        <a href="#pairing">Pairing</a>
+        <a href="#ca">CA</a>
+        <a href="#disclaimer">Disclaimer</a>
+        <a class="x-pill" href="https://x.com/search?q=%24BIRDDOG" target="_blank" rel="noopener">Follow on X</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <div class="wrap hero-top">
+      <div class="hero-copy">
+        <svg class="wordmark" viewBox="0 0 760 240" aria-label="$BIRDDOG">
+          <defs>
+            <path id="wave" d="M10,150 C140,60 260,240 390,150 S640,60 760,150">
+              <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                values="M10,150 C140,60 260,240 390,150 S640,60 760,150;
+                        M10,150 C140,240 260,60 390,150 S640,240 760,150;
+                        M10,150 C140,60 260,240 390,150 S640,60 760,150"/>
+            </path>
+          </defs>
+          <g class="shadow2" transform="translate(12,12)"><text><textPath href="#wave" startOffset="2%" textLength="720" lengthAdjust="spacingAndGlyphs">$BIRDDOG</textPath></text></g>
+          <g class="shadow" transform="translate(6,6)"><text><textPath href="#wave" startOffset="2%" textLength="720" lengthAdjust="spacingAndGlyphs">$BIRDDOG</textPath></text></g>
+          <text><textPath href="#wave" startOffset="2%" textLength="720" lengthAdjust="spacingAndGlyphs">$BIRDDOG</textPath></text>
+        </svg>
+        <p class="lede" style="margin:0">The chillest bird on the chain. Beanie on, shades down, feathers up. <strong>$BIRDDOG</strong> is a pure-vibes meme coin paired straight to <strong>$PEPE</strong> through <strong>stonkfun</strong> — no roadmap, no promises, just the flock.</p>
+        <div class="soon"><span class="dot"></span>Coming soon</div>
+        <div class="hero-actions">
+          <a class="btn" href="https://x.com/search?q=%24BIRDDOG" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.2L23.3 22h-6.6l-5.2-6.8L5.6 22H2.5l7.7-8.8L1.7 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.4 3.9H5.5L17.7 20z"/></svg>
+            Join the flock
+          </a>
+          <a class="btn alt" href="#origin">Read the origin</a>
+        </div>
+      </div>
+      <div class="disc" id="disc">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="ring inner" aria-hidden="true"></div>
+        <div class="core" aria-hidden="true"></div>
+        <img class="head" id="duck" src="assets/birddog.webp" alt="$BIRDDOG — a yellow bird-dog in a purple beanie and black sunglasses">
+      </div>
+    </div>
+
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>$BIRDDOG <i>✦</i></span><span>Coming soon <i>✦</i></span><span>Paired to $PEPE <i>✦</i></span><span>via stonkfun <i>✦</i></span><span>Classic shit, man <i>✦</i></span><span>No roadmap, only vibes <i>✦</i></span>
+      <span>$BIRDDOG <i>✦</i></span><span>Coming soon <i>✦</i></span><span>Paired to $PEPE <i>✦</i></span><span>via stonkfun <i>✦</i></span><span>Classic shit, man <i>✦</i></span><span>No roadmap, only vibes <i>✦</i></span>
+    </div>
+  </div>
+
+  <section id="origin">
+    <div class="wrap">
+      <span class="tag">Origin</span>
+      <h2>Born in Boy's Club.<br><span class="alt">Same house as Pepe.</span></h2>
+      <div class="origin-grid">
+        <figure class="comic">
+          <div class="frame"><img src="assets/boysclub-birddog.webp" alt="Boy's Club comic page: 'introducing: bird-dog' — a bird-dog character in a beanie and sunglasses saying 'classic shit man'"></div>
+          <figcaption>Boy's Club #4 · p.106 · © Matt Furie</figcaption>
+        </figure>
+        <div class="origin-copy">
+          <blockquote class="quote">"Classic shit, man."<small>Bird-Dog's first words to the world</small></blockquote>
+          <p><strong>Bird-Dog is a Matt Furie original.</strong> Furie is the cartoonist behind <em>Boy's Club</em>, the comic that gave the internet Pepe the Frog. It started in 2005 as a run of Myspace posts, went to print in 2006, and followed four slacker roommates — Pepe, Landwolf, Brett and Andy — through a haze of pizza, video games and very little ambition. Critics called it a stoner classic for the Tumblr generation.</p>
+          <p>Bird-Dog arrives late to the party. He's introduced in <strong>Boy's Club #4</strong>, the series' fourth and final issue, on a full "introducing:" splash page — beanie, shades, pizza-slice tee, a chain hanging out of his shorts, and a one-liner ready. He's a bird-dog hybrid, feathers and fur blended together, who delivers pizza and drifts through the house with a nonchalant, carefree attitude and a steady supply of dry one-liners.</p>
+          <p>He was the last new face Furie added to the Boy's Club house before the series ended in 2012 — the whole run was collected by Fantagraphics in 2016. Pepe became the most famous cartoon frog on earth. Bird-Dog stayed underground. Until now.</p>
+          <div class="facts">
+            <div class="fact"><b>Matt Furie</b><span>Creator, Boy's Club</span></div>
+            <div class="fact"><b>Boy's Club #4</b><span>First appearance, final issue</span></div>
+            <div class="fact"><b>Pizza delivery</b><span>Day job, allegedly</span></div>
+          </div>
+          <div class="cast"><span class="frog">Pepe</span><span>Landwolf</span><span>Brett</span><span>Andy</span><span class="me">Bird-Dog</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pairing" id="pairing">
+    <div class="wrap">
+      <span class="tag">The pairing</span>
+      <h2>$BIRDDOG <span class="alt">⇄</span> $PEPE</h2>
+      <p class="lede">Same house in the comic, same pool on-chain. $BIRDDOG launches as a <strong>$PEPE-paired</strong> token on <strong>stonkfun</strong>: instead of a plain ETH or stablecoin pool, the pair is backed by $PEPE itself. The bird rides with the frog.</p>
+      <div class="pair-stage">
+        <div class="pair-row">
+          <div class="flow" aria-hidden="true"></div>
+          <div class="coin bird"><div><img src="assets/birddog.webp" alt=""></div></div>
+          <div class="via">
+            <div class="via-logo"><img src="assets/stonkfun.webp" alt="stonkfun logo"></div>
+            <span class="name">stonkfun</span>
+          </div>
+          <div class="coin frog"><div><span class="tagline">$PEPE</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ca">
+    <div class="wrap">
+      <span class="tag">Contract address</span>
+      <h2>CA drops <span class="alt">at launch</span></h2>
+      <div class="ca-grid">
+        <div class="melt dark ca-box">
+          <div class="ca-row">
+            <span class="ca-label">CA</span>
+            <div class="ca-addr" id="caAddr" aria-live="polite">0x????????????????????????????????????????</div>
+            <button class="btn" id="copyBtn" type="button" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy CA
+            </button>
+          </div>
+          <div class="ca-status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <span>Locked until launch. The real CA gets posted here and on X at the same moment — anything claiming to be $BIRDDOG before then is a fake.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="x">
+    <div class="wrap">
+      <span class="tag">Find us on X</span>
+      <h2>Follow <span class="alt">the flock</span></h2>
+      <div class="x-stage">
+        <div class="melt dark x-card">
+          <div class="glyph"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.2L23.3 22h-6.6l-5.2-6.8L5.6 22H2.5l7.7-8.8L1.7 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.4 3.9H5.5L17.7 20z"/></svg></div>
+          <h3>Everything happens on X</h3>
+          <p>Launch time, the contract address, memes, and whatever the bird is thinking about that day. If it isn't posted there, it isn't real.</p>
+          <span class="handle">$BIRDDOG</span>
+          <div><a class="btn" href="https://x.com/search?q=%24BIRDDOG" target="_blank" rel="noopener">Open on X</a></div>
+        </div>
+        <div class="x-feed" aria-label="Example posts">
+          <div class="melt post"><div class="who"><img src="assets/birddog.webp" alt="">$BIRDDOG <span>· soon</span></div>beanie on. shades down. we're almost there.<span class="example">example post</span></div>
+          <div class="melt post"><div class="who"><img src="assets/birddog.webp" alt="">$BIRDDOG <span>· soon</span></div>paired to $PEPE on stonkfun. the bird rides with the frog.<span class="example">example post</span></div>
+          <div class="melt post"><div class="who"><img src="assets/birddog.webp" alt="">$BIRDDOG <span>· soon</span></div>CA will be posted right here. don't ape anything before that.<span class="example">example post</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="disclaimer" id="disclaimer">
+    <div class="wrap">
+      <div class="melt dark disc-box">
+        <h3>Disclaimer</h3>
+        <p>$BIRDDOG is a meme coin made for entertainment. It has no intrinsic value, no utility, no team promises, and no expectation of financial return. Nothing on this page is financial, investment, legal, or tax advice.</p>
+        <p>Crypto assets are extremely volatile and you can lose everything you put in. Do your own research, never spend more than you can afford to lose, and make sure buying and holding tokens is legal where you live.</p>
+        <p>Bird-Dog is a character created by Matt Furie and appears in his comic <em>Boy's Club</em>; the comic page shown above is his work and is reproduced here as a reference to the character's origin. $BIRDDOG is an independent, fan-made community project. It is not affiliated with, endorsed by, or connected to Matt Furie, the creators of Pepe the Frog, the $PEPE token, or stonkfun beyond being launched as a $PEPE-paired token on the stonkfun platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <div style="display:flex;align-items:center;gap:12px"><img src="assets/birddog.webp" alt="">© 2026 $BIRDDOG · coming soon</div>
+      <div>classic shit, man</div>
+    </div>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast" role="status">Copied</div>
+
+<script>
+  // ---- drifting spark field ----
+  (function () {
+    var c = document.getElementById('stars');
+    var ctx = c.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W, H, dots = [];
+    var colors = ['#ffd23f', '#ff2fd0', '#b6ff2e', '#22e6ff', '#ff8a00'];
+    function size() { W = c.width = innerWidth * dpr; H = c.height = innerHeight * dpr; c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px'; }
+    function seed() {
+      dots = [];
+      var n = Math.round((innerWidth * innerHeight) / 20000);
+      for (var i = 0; i < n; i++) dots.push({ x: Math.random() * W, y: Math.random() * H, r: (1 + Math.random() * 2.4) * dpr, vy: (0.08 + Math.random() * 0.28) * dpr, vx: (Math.random() - .5) * 0.18 * dpr, c: colors[(Math.random() * colors.length) | 0], t: Math.random() * Math.PI * 2, s: Math.random() < .3 });
+    }
+    function star(x, y, r) { ctx.beginPath(); for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4, rr = k % 2 ? r * .4 : r; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); } ctx.closePath(); ctx.fill(); }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i]; d.t += 0.025;
+        ctx.globalAlpha = 0.35 + Math.sin(d.t) * 0.3; ctx.fillStyle = d.c;
+        if (d.s) star(d.x, d.y, d.r * 2.2); else { ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fill(); }
+        if (!reduce) { d.y -= d.vy; d.x += d.vx + Math.sin(d.t) * 0.12 * dpr; }
+        if (d.y < -10) { d.y = H + 10; d.x = Math.random() * W; }
+      }
+      ctx.globalAlpha = 1;
+      if (!reduce) requestAnimationFrame(draw);
+    }
+    size(); seed(); draw();
+    addEventListener('resize', function () { size(); seed(); if (reduce) draw(); });
+  })();
+
+  // ---- scrambled contract address (locked until launch) ----
+  (function () {
+    var el = document.getElementById('caAddr');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (el.getAttribute('data-ca')) return;
+    var hex = '0123456789abcdef';
+    function scramble() { var s = '0x'; for (var i = 0; i < 40; i++) s += Math.random() < 0.7 ? '?' : hex[(Math.random() * 16) | 0]; el.textContent = s; }
+    scramble(); if (!reduce) setInterval(scramble, 140);
+  })();
+
+  // ---- copy button (launch day: set data-ca on #caAddr to enable) ----
+  (function () {
+    var btn = document.getElementById('copyBtn'), addr = document.getElementById('caAddr'), toast = document.getElementById('toast');
+    var ca = addr.getAttribute('data-ca');
+    if (ca) { addr.textContent = ca; btn.removeAttribute('disabled'); }
+    btn.addEventListener('click', function () {
+      var v = addr.getAttribute('data-ca'); if (!v) return;
+      try { navigator.clipboard.writeText(v).then(function () { toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 1600); }); } catch (e) {}
+    });
+  })();
+
+  // ---- duck head: tap to spin, disc speeds up ----
+  (function () {
+    var d = document.getElementById('duck'), disc = document.getElementById('disc');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    d.addEventListener('click', function () {
+      if (reduce) return;
+      d.style.animation = 'none'; d.style.transition = 'transform .9s cubic-bezier(.2,1.4,.4,1)';
+      d.style.transform = 'rotate(' + (360 + (Math.random() * 60 - 30)) + 'deg) scale(1.12)';
+      disc.querySelectorAll('.ring').forEach(function (r) { r.style.animationDuration = '2s'; });
+      setTimeout(function () { d.style.transform = ''; d.style.animation = ''; d.style.transition = ''; disc.querySelectorAll('.ring').forEach(function (r) { r.style.animationDuration = ''; }); }, 1400);
+    });
+  })();
+</script>
+
+</body>
+</html>
